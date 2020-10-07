@@ -1,10 +1,10 @@
 # Python CircleCI 2.0 configuration file
 #
-# Check https://circleci.com/docs/2.0/language-python/ for more details
-#
 version: 2
 jobs:
   build:
+    environment:
+      CC_TEST_REPORTER_ID: "45f7d4f96f83afb3d71c0da51d990af175a791f77c4355835741692f7897e1a7"
     docker:
       # specify the version you desire here
       # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
@@ -19,16 +19,24 @@ jobs:
     steps:
       - checkout
       - run:
-          name: install dependencies
+          name: Setup Code Climate test-reporter
           command: |
             python3 -m venv venv
+            . venv/bin/activate
+            # download test reporter as a static binary
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > venv/bin/cc-test-reporter
+            chmod +x venv/bin/cc-test-reporter
+      - run:
+          name: install dependencies
+          command: |
             . venv/bin/activate
             pip install wagtail
       - run:
           name: run tests
           command: |
             . venv/bin/activate
-            python runtests.py
-      - store_artifacts:
-          path: test-reports
-          destination: test-reports
+            pip install coverage
+            coverage run ./runtests.py
+            coverage report
+            coverage xml
+            cc-test-reporter after-build --coverage-input-type coverage.py --exit-code $?

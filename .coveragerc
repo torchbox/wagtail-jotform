@@ -1,0 +1,3 @@
+[run]
+include = wagtail_jotform/*
+omit = *migrations*, *tests*
