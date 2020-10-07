@@ -1,4 +1,6 @@
 [![CircleCI](https://circleci.com/gh/kevinhowbrook/wagtail-jotform.svg?style=shield&circle)](https://circleci.com/gh/kevinhowbrook/wagtail-jotform)
+[![Maintainability](https://api.codeclimate.com/v1/badges/726c28a95738c509885c/maintainability)](https://codeclimate.com/github/kevinhowbrook/wagtail-jotform/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/726c28a95738c509885c/test_coverage)](https://codeclimate.com/github/kevinhowbrook/wagtail-jotform/test_coverage)
 
 # Wagtail Jotform
 
@@ -57,4 +59,11 @@ your_project_root/
     wagtial_jotform/
         embed_form_page.html
         thank_you.html
+```
+
+## Tests
+
+```
+coverage run ./runtest.py
+coverage report
 ```
