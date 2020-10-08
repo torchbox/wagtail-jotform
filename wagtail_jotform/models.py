@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.db import models
 from django.forms.widgets import Select
 from django.shortcuts import render
@@ -8,17 +7,18 @@ from wagtail.contrib.routable_page.models import RoutablePageMixin, route
 from wagtail.core.fields import RichTextField
 from wagtail.core.models import Page
 
+from .settings import wagtail_jotform_settings
 from .utils import JotFormAPI
 
 
 def jot_form_choices():
     jot_form_data = []
-    if settings.JOTFORM_API_URL and settings.JOTFORM_API_KEY:
-        data = JotFormAPI()
-        data.fetch_from_api()
-        data = data.get_data()
+    if wagtail_jotform_settings.API_URL and wagtail_jotform_settings.API_KEY:
+        jotform = JotFormAPI()
+        jotform.fetch_from_api()
+        data = jotform.get_data()
 
-        if data and "content" in data:
+        if "content" in data:
             for item in data["content"]:
                 jot_form_data.append((item["id"], item["title"]))
     return jot_form_data

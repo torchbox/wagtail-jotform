@@ -1,10 +1,11 @@
 import logging
 
-from django.conf import settings
 from django.core.cache import cache
 
 import requests
 from requests.exceptions import ConnectionError, HTTPError, MissingSchema, Timeout
+
+from .settings import wagtail_jotform_settings
 
 logger = logging.getLogger(__name__)
 
@@ -35,8 +36,8 @@ def fetch_data(url, headers=None, **params):
 
 def fetch_jotform_data():
 
-    headers = {"APIKEY": settings.JOTFORM_API_KEY}
-    url = f"{settings.JOTFORM_API_URL}/user/forms"
+    headers = {"APIKEY": wagtail_jotform_settings.API_KEY}
+    url = f"{wagtail_jotform_settings.API_URL}/user/forms"
 
     return fetch_data(url, headers)
 
@@ -58,7 +59,7 @@ class _BaseContentAPI:
         data = cache.get(self.cache_key)
         if data is not None:
             return data
-        return []
+        return {}
 
 
 class JotFormAPI(_BaseContentAPI):
