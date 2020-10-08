@@ -68,5 +68,7 @@ TEMPLATES = [
 WAGTAIL_SITE_NAME = "Wagtail Form Embeds"
 USE_TZ = True
 
-JOTFORM_API_KEY = ""
-JOTFORM_API_URL = ""
+WAGTAIL_JOTFORM = {
+    "API_KEY": "",
+    "API_URL": "",
+}

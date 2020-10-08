@@ -20,8 +20,10 @@ You will need an API key from jotform.
 Add the following variables to your settings.
 
 ```
-JOTFORM_API_KEY = 'somekey'
-JOTFORM_API_URL = 'https://api.jotform.com'
+WAGTAIL_JOTFORM = {
+    "API_KEY": "somekey",
+    "API_URL": "https://api.jotform.com",
+}
 ```
 
 If your Jotform account is in EU safe mode, your JOTFORM_API_URL should be `https://eu-api.jotform.com`
