@@ -19,9 +19,10 @@ def do_after_publish_page(request, page):
             "activeRedirect": "thankurl",
             "thankurl": f"{thank_you_url}",
         }
-        properties = {}
-        for key in form_properties:
-            properties["properties[" + key + "]"] = form_properties[key]
+        properties = {
+            "properties[" + key + "]": form_properties[key]
+            for key in form_properties
+        }
 
         requests.post(
             f"{settings.JOTFORM_API_URL}/form/{page.form}/properties",
