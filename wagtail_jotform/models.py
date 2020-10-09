@@ -24,7 +24,7 @@ def jot_form_choices():
     return jot_form_data
 
 
-class EmbededFormPage(RoutablePageMixin, Page):
+class EmbeddedFormPage(RoutablePageMixin, Page):
     thank_you_template = "wagtail_jotform/thank_you.html"
     subpage_types = []
 
