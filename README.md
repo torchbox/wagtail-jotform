@@ -6,7 +6,7 @@
 
 Embedable Jotform forms for Wagtail pages.
 
-Wagtail Jotform works by providing a new page type, EmbededFormPage with a form choice field. Values for this form field are populated from the Jotform API.
+Wagtail Jotform works by providing a new page type, EmbeddedFormPage with a form choice field. Values for this form field are populated from the Jotform API.
 
 ## Installation
 
@@ -51,7 +51,7 @@ When a form is created, the Jotform `thankurl` is set with your created forms th
 Wagtail Jotform has 2 templates:
 
 ```
-embeded_form_page.html
+embedded_form_page.html
 thank_you.html
 ```
 
