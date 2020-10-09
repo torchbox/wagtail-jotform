@@ -35,7 +35,7 @@ class EmbeddedFormPage(RoutablePageMixin, Page):
         help_text="Text displayed to the user on successful submission of the form",
     )
 
-    @route(r"^thank-you/$", name="embeded_form_thank_you")
+    @route(r"^thank-you/$", name="embedded_form_thank_you")
     def thank_you_page(self, request, *args, **kwargs):
         return render(request, self.thank_you_template, {"page": self})
 
