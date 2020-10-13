@@ -53,7 +53,7 @@ class _BaseContentAPI:
         except CantPullFromAPI:
             pass
         else:
-            cache.set(self.cache_key, data, 1800)
+            cache.set(self.cache_key, data, 180)
 
     def get_data(self):
         data = cache.get(self.cache_key)
