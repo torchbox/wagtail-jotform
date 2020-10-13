@@ -1,7 +1,5 @@
 import logging
 
-from django.core.cache import cache
-
 import requests
 from requests.exceptions import ConnectionError, HTTPError, MissingSchema, Timeout
 
@@ -43,9 +41,8 @@ def fetch_jotform_data():
 
 
 class _BaseContentAPI:
-    def __init__(self, func, cache_key):
+    def __init__(self, func):
         self.func = func
-        self.cache_key = cache_key
 
     def fetch_from_api(self):
         try:
@@ -53,10 +50,10 @@ class _BaseContentAPI:
         except CantPullFromAPI:
             pass
         else:
-            cache.set(self.cache_key, data, 180)
+            return data
 
     def get_data(self):
-        data = cache.get(self.cache_key)
+        data = self.fetch_from_api()
         if data is not None:
             return data
         return {}
@@ -64,7 +61,7 @@ class _BaseContentAPI:
 
 class JotFormAPI(_BaseContentAPI):
     def __init__(self):
-        super().__init__(fetch_jotform_data, "jotform_data")
+        super().__init__(fetch_jotform_data)
 
 
 def parse_jotform_data(data):

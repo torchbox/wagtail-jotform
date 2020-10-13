@@ -3,6 +3,7 @@ from django.forms.widgets import Select
 from django.shortcuts import render
 
 from wagtail.admin.edit_handlers import FieldPanel
+from wagtail.admin.forms import WagtailAdminPageForm
 from wagtail.contrib.routable_page.models import RoutablePageMixin, route
 from wagtail.core.fields import RichTextField
 from wagtail.core.models import Page
@@ -17,14 +18,26 @@ def jot_form_choices():
         jotform = JotFormAPI()
         jotform.fetch_from_api()
         data = jotform.get_data()
-
         if "content" in data:
             for item in data["content"]:
                 jot_form_data.append((item["id"], item["title"]))
     return jot_form_data
 
 
+class EmbeddedFormPageAdminForm(WagtailAdminPageForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["form"].widget.choices = jot_form_choices()
+
+
 class EmbeddedFormPage(RoutablePageMixin, Page):
+
+    base_form_class = EmbeddedFormPageAdminForm
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        jot_form_choices()
+
     thank_you_template = "wagtail_jotform/thank_you.html"
     subpage_types = []
 
@@ -41,6 +54,6 @@ class EmbeddedFormPage(RoutablePageMixin, Page):
 
     content_panels = Page.content_panels + [
         FieldPanel("introduction"),
-        FieldPanel("form", widget=Select(choices=jot_form_choices())),
+        FieldPanel("form", widget=Select(choices=[])),
         FieldPanel("thank_you_text"),
     ]
