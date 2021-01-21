@@ -2,9 +2,11 @@ import logging
 
 import requests
 from requests.exceptions import ConnectionError, HTTPError, MissingSchema, Timeout
+from urllib3.exceptions import MaxRetryError
 
 from .settings import wagtail_jotform_settings
 
+logging.basicConfig(level=logging.CRITICAL)
 logger = logging.getLogger(__name__)
 
 
@@ -18,6 +20,9 @@ def fetch_data(url, headers=None, **params):
         response.raise_for_status()
     except Timeout:
         logger.exception(f"Timeout error occurred when fetching data from {url}")
+        raise CantPullFromAPI(f"Error occured when fetching data from {url}")
+    except MaxRetryError:
+        logger.exception(f"MaxRetryError occured when fetching data from {url}")
         raise CantPullFromAPI(f"Error occured when fetching data from {url}")
     except (HTTPError, ConnectionError):
         logger.exception(f"HTTP/ConnectionError occured when fetching data from {url}")
@@ -62,7 +67,3 @@ class _BaseContentAPI:
 class JotFormAPI(_BaseContentAPI):
     def __init__(self):
         super().__init__(fetch_jotform_data)
-
-
-def parse_jotform_data(data):
-    return data

@@ -10,7 +10,7 @@ class WagtailJotFormSettings:
         try:
             # Check if present in user settings
             return django_settings[attr]
-        except KeyError:
+        except (KeyError, AttributeError):
             return getattr(DEFAULTS, attr, None)
 
 

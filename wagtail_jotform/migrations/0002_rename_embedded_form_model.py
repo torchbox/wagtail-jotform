@@ -7,7 +7,6 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('wagtailredirects', '0006_redirect_increase_max_length'),
         ('contenttypes', '0002_remove_content_type_name'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ('wagtailforms', '0004_add_verbose_name_plural'),

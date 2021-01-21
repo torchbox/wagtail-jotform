@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.sitemaps",
     # Add your app here
+    "wagtail_jotform.tests.testapp",
     "wagtail_jotform",
 ]
 
@@ -43,7 +44,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "wagtail.core.middleware.SiteMiddleware",
+    "wagtail.contrib.legacy.sitemiddleware.SiteMiddleware",
 ]
 
 ROOT_URLCONF = "wagtail_jotform.tests.urls"
@@ -69,6 +70,6 @@ WAGTAIL_SITE_NAME = "Wagtail Form Embeds"
 USE_TZ = True
 
 WAGTAIL_JOTFORM = {
-    "API_KEY": "",
-    "API_URL": "",
+    "API_KEY": "somekey",
+    "API_URL": "https://wagtail-jotform.com",
 }
