@@ -1,6 +1,6 @@
-[![CircleCI](https://circleci.com/gh/kevinhowbrook/wagtail-jotform.svg?style=shield&circle)](https://circleci.com/gh/kevinhowbrook/wagtail-jotform)
-[![Maintainability](https://api.codeclimate.com/v1/badges/726c28a95738c509885c/maintainability)](https://codeclimate.com/github/kevinhowbrook/wagtail-jotform/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/726c28a95738c509885c/test_coverage)](https://codeclimate.com/github/kevinhowbrook/wagtail-jotform/test_coverage)
+![tests](https://github.com/kevinhowbrook/wagtail-jotform/workflows/Tests/badge.svg)
+[![codecov](https://codecov.io/gh/kevinhowbrook/wagtail-jotform/branch/master/graph/badge.svg?token=GBDM9H1A2X)](https://codecov.io/gh/kevinhowbrook/wagtail-jotform)
+[![black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 # Wagtail Jotform
 
@@ -67,6 +67,6 @@ your_project_root/
 ## Tests
 
 ```
-coverage run ./runtest.py
+coverage run ./runtests.py
 coverage report
 ```
