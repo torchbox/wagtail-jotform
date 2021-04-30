@@ -29,4 +29,4 @@ jobs:
           coverage run ./runtests.py
           coverage report
           coverage xml
-          bash <(curl -s https://codecov.io/bash) -t "5f0ca8c1-b367-4007-85ef-d6f7abfec83c"
+          bash <(curl -s https://codecov.io/bash) -t "d685b3ae-a510-4fa6-8c07-7b4d4367fdf3"
