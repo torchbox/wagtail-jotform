@@ -160,6 +160,7 @@ class TestSettings(TestCase):
         del settings.WAGTAIL_JOTFORM
         self.assertFalse(wagtail_jotform_settings.API_KEY)
         self.assertFalse(wagtail_jotform_settings.API_URL)
+        self.assertFalse(wagtail_jotform_settings.LIMIT)
 
     def test_page_renders_with_bad_settings(self):
         response = self.client.get("/embeded-form-page/")

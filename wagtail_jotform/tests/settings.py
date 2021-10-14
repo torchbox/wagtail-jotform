@@ -72,4 +72,5 @@ USE_TZ = True
 WAGTAIL_JOTFORM = {
     "API_KEY": "somekey",
     "API_URL": "https://wagtail-jotform.com",
+    "LIMIT": 50,
 }
