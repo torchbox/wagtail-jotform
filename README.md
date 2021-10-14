@@ -24,8 +24,11 @@ You will need an API key from Jotform. Add the following variables to your setti
 WAGTAIL_JOTFORM = {
     "API_KEY": "somekey",
     "API_URL": "https://api.jotform.com",
+    "LIMIT": 50,
 }
 ```
+
+`LIMIT` is the number of results in each result set for form list. Default is 50. Maximum is 1000.
 
 If your Jotform account is in [EU safe mode](https://www.jotform.com/eu-safe-forms/), your `JOTFORM_API_URL` should be `https://eu-api.jotform.com`.
 
