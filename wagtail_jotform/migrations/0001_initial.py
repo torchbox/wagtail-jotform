@@ -2,7 +2,13 @@
 
 import django.db.models.deletion
 import wagtail.contrib.routable_page.models
-import wagtail.core.fields
+from wagtail import VERSION as WAGTAIL_VERSION
+
+if WAGTAIL_VERSION >= (3, 0):
+    import wagtail.fields
+else:
+    import wagtail.core.fields
+
 from django.db import migrations, models
 
 
