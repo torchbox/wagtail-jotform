@@ -1,6 +1,6 @@
 import logging
 
-from wagtail.core import hooks
+from wagtail import VERSION as WAGTAIL_VERSION
 
 import requests
 
@@ -10,6 +10,11 @@ from .utils import CantPullFromAPI
 
 logging.basicConfig(level=logging.CRITICAL)
 logger = logging.getLogger(__name__)
+
+if WAGTAIL_VERSION >= (3, 0):
+    from wagtail import hooks
+else:
+    from wagtail.core import hooks
 
 
 @hooks.register("after_publish_page")
@@ -25,9 +30,8 @@ def do_after_publish_page(request, page):
         "activeRedirect": "thankurl",
         "thankurl": f"{thank_you_url}",
     }
-    properties = {
-        "properties[" + key + "]": form_properties[key] for key in form_properties
-    }
+    properties = {f"properties[{key}]": form_properties[key] for key in form_properties}
+
     try:
         requests.post(
             f"{wagtail_jotform_settings.API_URL}/form/{page.form}/properties",
@@ -35,5 +39,5 @@ def do_after_publish_page(request, page):
             data=properties,
             timeout=10,
         )
-    except Exception:
-        raise CantPullFromAPI("Cant post")
+    except Exception as e:
+        raise CantPullFromAPI("Cant post") from e

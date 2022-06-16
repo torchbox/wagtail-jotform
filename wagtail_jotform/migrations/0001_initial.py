@@ -2,7 +2,13 @@
 
 import django.db.models.deletion
 import wagtail.contrib.routable_page.models
-import wagtail.core.fields
+from wagtail import VERSION as WAGTAIL_VERSION
+
+if WAGTAIL_VERSION >= (3, 0):
+    import wagtail.fields as wagtail_fields
+else:
+    import wagtail.core.fields as wagtail_fields
+
 from django.db import migrations, models
 
 
@@ -21,7 +27,7 @@ class Migration(migrations.Migration):
                 ('page_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='wagtailcore.page')),
                 ('introduction', models.TextField(blank=True)),
                 ('form', models.CharField(max_length=1000)),
-                ('thank_you_text', wagtail.core.fields.RichTextField(blank=True, help_text='Text displayed to the user on successful submission of the form')),
+                ('thank_you_text', wagtail_fields.RichTextField(blank=True, help_text='Text displayed to the user on successful submission of the form')),
             ],
             options={
                 'abstract': False,

@@ -3,7 +3,12 @@ from unittest import mock
 from django.conf import settings
 from django.test import TestCase
 
-from wagtail.core.models import Page, Site
+from wagtail import VERSION as WAGTAIL_VERSION
+
+if WAGTAIL_VERSION >= (3, 0):
+    from wagtail.models import Page, Site
+else:
+    from wagtail.core.models import Page, Site
 
 from requests.exceptions import Timeout
 

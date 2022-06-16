@@ -70,6 +70,11 @@ your_project_root/
 ## Tests
 
 ```
+# Install the development environment
+poetry install
+poetry shell
+
+# Run the tests
 coverage run ./runtests.py
 coverage report
 ```
