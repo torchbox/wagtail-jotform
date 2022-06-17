@@ -1,3 +1,10 @@
 [run]
-include = wagtail_jotform/*
 omit = *migrations*, *tests*
+
+source = wagtail_jotform
+
+[html]
+directory = coverage_html_report
+
+[report]
+show_missing = True
