@@ -1,6 +1,6 @@
 ![tests](https://github.com/kevinhowbrook/wagtail-jotform/workflows/Tests/badge.svg)
 [![codecov](https://codecov.io/gh/kevinhowbrook/wagtail-jotform/branch/master/graph/badge.svg?token=GBDM9H1A2X)](https://codecov.io/gh/kevinhowbrook/wagtail-jotform)
-[![black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black) [![Total alerts](https://img.shields.io/lgtm/alerts/g/kevinhowbrook/wagtail-jotform.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/kevinhowbrook/wagtail-jotform/alerts/)
 
 # Wagtail Jotform
 

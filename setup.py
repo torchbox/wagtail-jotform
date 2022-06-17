@@ -8,6 +8,10 @@ this_directory = path.abspath(path.dirname(__file__))
 with open(path.join(this_directory, "README.md"), encoding="utf-8") as f:
     long_description = f.read()
 
+testing_extras = [
+    'coverage>=6.4.1',
+    'tox-poetry>=0.4.1'
+]
 
 setup(
     name="wagtail-jotform",
@@ -33,5 +37,7 @@ setup(
         "Programming Language :: Python :: 3.7",
         "Framework :: Wagtail",
         "Framework :: Wagtail :: 2",
+        "Framework :: Wagtail :: 3",
     ],
+    extras_require={'testing': testing_extras},
 )
