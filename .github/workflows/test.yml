@@ -6,27 +6,40 @@ on:
   pull_request:
     branches: [master]
 
+# Current configuration:
+# - python 3.9, wagtail 3.0
+# - python 3.8, wagtail 2.16
+# - python 3.7, django 2.15
+
 jobs:
-  build:
+  test:
+    name: 🧪 Test
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.7, 3.8, 3.9]
-
+        include:
+          - python: 3.9
+            wagtail: wagtail>=3.0,<4.0
+            latest: true
+          - python: 3.8
+            wagtail: wagtail>=2.16,<3.0
+          - python: 3.7
+            wagtail: wagtail>=2.15, <2.16
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
         with:
-          python-version: ${{ matrix.python-version }}
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install wagtail coverage
-      - name: Test
-        run: |
+          python-version: ${{ matrix.python }}
+          cache: "pip"
+          cache-dependency-path: "**/setup.cfg"
+      - run: |
           pip install coverage
+          pip install "${{ matrix.wagtail }}"
+      - run: |
           coverage run ./runtests.py
           coverage report
           coverage xml
-          bash <(curl -s https://codecov.io/bash) -t "d685b3ae-a510-4fa6-8c07-7b4d4367fdf3"
+      - if: ${{ matrix.latest }}
+        uses: codecov/codecov-action@v2
+        with:
+          name: Python 3.9
