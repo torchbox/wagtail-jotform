@@ -1,6 +1,6 @@
 import logging
 
-from wagtail import VERSION as WAGTAIL_VERSION
+from wagtail import hooks
 
 import requests
 
@@ -10,11 +10,6 @@ from .utils import CantPullFromAPI
 
 logging.basicConfig(level=logging.CRITICAL)
 logger = logging.getLogger(__name__)
-
-if WAGTAIL_VERSION >= (3, 0):
-    from wagtail import hooks
-else:
-    from wagtail.core import hooks
 
 
 @hooks.register("after_publish_page")

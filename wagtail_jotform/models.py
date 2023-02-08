@@ -2,19 +2,11 @@ from django.db import models
 from django.forms.widgets import Select
 from django.shortcuts import render
 
-from wagtail import VERSION as WAGTAIL_VERSION
-
-if WAGTAIL_VERSION >= (3, 0):
-    from wagtail.admin.panels import FieldPanel
-    from wagtail.fields import RichTextField
-    from wagtail.models import Page
-else:
-    from wagtail.admin.edit_handlers import FieldPanel
-    from wagtail.core.fields import RichTextField
-    from wagtail.core.models import Page
-
 from wagtail.admin.forms import WagtailAdminPageForm
+from wagtail.admin.panels import FieldPanel
 from wagtail.contrib.routable_page.models import RoutablePageMixin, route
+from wagtail.fields import RichTextField
+from wagtail.models import Page
 
 from .settings import wagtail_jotform_settings
 from .utils import JotFormAPI
