@@ -7,11 +7,10 @@ on:
     branches: [master]
 
 # Current configuration:
-# - python 3.11, wagtail 4.1+, django 4.0+
-# - python 3.10, wagtail 4.1+, django 4.0+
-# - python 3.9, wagtail 4.1+, django 4.0+
-# - python 3.8, wagtail 4.1+, django 4.0+
-# - python 3.7, wagtail 4.1+ django 3.2.17
+# - python 3.11, wagtail 4.1+, django 3.2+
+# - python 3.10, wagtail 4.1+, django 3.2+
+# - python 3.9, wagtail 4.1+, django 3.2+
+# - python 3.8, wagtail 4.1+, django 3.2+
 
 jobs:
   test:
@@ -19,30 +18,17 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
+        python: ["3.11", "3.10", "3.9", "3.8"]
+        django: ["django>=3.2,<3.3", "django>=4.1,<4.2", "django>=4.2,<4.3"]
+        wagtail: ["wagtail>=4.1,<4.2", "wagtail>=4.2,<5.0"]
+        exclude:
+          - python: "3.11"
+            django: django>=3.2,<3.3
         include:
           - python: "3.11"
-            wagtail: wagtail>=4.2,<5.0
+            django: django>=4.2,<4.3
+            wagtail: wagtail>=5.0,<5.1
             latest: true
-          - python: "3.11"
-            wagtail: wagtail>=4.1,<4.2
-          - python: "3.10"
-            wagtail: wagtail>=4.2,<5.0
-          - python: "3.10"
-            wagtail: wagtail>=4.1,<4.2
-          - python: 3.9
-            wagtail: wagtail>=4.2,<5.0
-          - python: 3.9
-            wagtail: wagtail>=4.1,<4.2
-          - python: 3.8
-            wagtail: wagtail>=4.2,<5.0
-          - python: 3.8
-            wagtail: wagtail>=4.1,<4.2
-          - python: 3.7
-            wagtail: wagtail>=4.2, <5.0
-            django: django>=3.2, <4.0
-          - python: 3.7
-            wagtail: wagtail>=4.1, <4.2
-            django: django>=3.2, <4.0
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v3
