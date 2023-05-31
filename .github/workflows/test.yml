@@ -6,12 +6,6 @@ on:
   pull_request:
     branches: [master]
 
-# Current configuration:
-# - python 3.11, wagtail 4.1+, django 3.2+
-# - python 3.10, wagtail 4.1+, django 3.2+
-# - python 3.9, wagtail 4.1+, django 3.2+
-# - python 3.8, wagtail 4.1+, django 3.2+
-
 jobs:
   test:
     name: 🧪 Test
