@@ -1,7 +1,5 @@
 import os
 
-from wagtail import VERSION as WAGTAIL_VERSION
-
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
 
@@ -77,5 +75,4 @@ WAGTAIL_JOTFORM = {
     "LIMIT": 50,
 }
 
-if WAGTAIL_VERSION >= (3, 0):
-    WAGTAILADMIN_BASE_URL = "http://localhost:8000"
+WAGTAILADMIN_BASE_URL = "http://localhost:8000"

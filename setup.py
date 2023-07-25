@@ -8,10 +8,7 @@ this_directory = path.abspath(path.dirname(__file__))
 with open(path.join(this_directory, "README.md"), encoding="utf-8") as f:
     long_description = f.read()
 
-testing_extras = [
-    'coverage>=6.4.1',
-    'tox-poetry>=0.4.1'
-]
+testing_extras = ["coverage>=6.4.1", "tox-poetry>=0.4.1"]
 
 setup(
     name="wagtail-jotform",
@@ -25,19 +22,20 @@ setup(
     author="Kevin Howbrook",
     author_email="kevin.howbrook@torchbox.com",
     license="BSD",
-    install_requires=["wagtail>=2.0"],
+    install_requires=["wagtail>=4.1"],
     classifiers=[
         "Environment :: Web Environment",
         "Intended Audience :: Developers",
         "Operating System :: OS Independent",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.5",
-        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
         "Framework :: Wagtail",
-        "Framework :: Wagtail :: 2",
-        "Framework :: Wagtail :: 3",
+        "Framework :: Wagtail :: 4",
     ],
-    extras_require={'testing': testing_extras},
+    extras_require={"testing": testing_extras},
 )
