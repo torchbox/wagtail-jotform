@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Update for wagtail 5.1
+
 ## 2.0.1 (2023-07-27)
 
 - Improve developer documentation

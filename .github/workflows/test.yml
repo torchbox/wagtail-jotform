@@ -14,14 +14,18 @@ jobs:
       matrix:
         python: ["3.11", "3.10", "3.9", "3.8"]
         django: ["django>=3.2,<3.3", "django>=4.1,<4.2", "django>=4.2,<4.3"]
-        wagtail: ["wagtail>=4.1,<4.2", "wagtail>=4.2,<5.0"]
+        wagtail: ["wagtail>=4.1,<4.2", "wagtail>=4.2,<5.0", "wagtail>=5.0,<5.1"]
         exclude:
           - python: "3.11"
             django: django>=3.2,<3.3
+          - django: django>=4.2,<4.3
+            wagtail: wagtail>=4.1,<4.2
+          - django: django>=4.2,<4.3
+            wagtail: wagtail>=4.2,<5.0
         include:
           - python: "3.11"
             django: django>=4.2,<4.3
-            wagtail: wagtail>=5.0,<5.1
+            wagtail: wagtail>=5.1,<5.2
             latest: true
     steps:
       - uses: actions/checkout@v3
