@@ -19,7 +19,7 @@ setup(
     description="Embed Jotform forms in wagtail.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/kevinhowbrook/wagtail-jotform",
+    url="https://github.com/torchbox/wagtail-jotform",
     author="Kevin Howbrook",
     author_email="kevin.howbrook@torchbox.com",
     license="BSD",
