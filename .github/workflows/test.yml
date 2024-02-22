@@ -25,8 +25,8 @@ jobs:
           - python: "3.12"
             django: django>=4.2,<4.3
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}
           cache: "pip"
@@ -39,6 +39,6 @@ jobs:
           coverage report
           coverage xml
       - if: ${{ matrix.latest }}
-        uses: codecov/codecov-action@v2
+        uses: codecov/codecov-action@v4
         with:
           name: Python 3.12
