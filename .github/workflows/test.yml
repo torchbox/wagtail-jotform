@@ -12,14 +12,18 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python: ["3.11", "3.10", "3.9", "3.8"]
-        django: ["django>=3.2,<3.3", "django>=4.1,<4.2", "django>=4.2,<4.3"]
-        wagtail: ["wagtail>=4.1,<4.2", "wagtail>=5.1,<5.2", "wagtail>=5.2,<5.3"]
+        python: ["3.12", "3.11", "3.10", "3.9", "3.8"]
+        django: ["django>=3.2,<3.3", "django>=4.2,<4.3", "django>=5.0,<5.1"]
+        wagtail: ["wagtail>=5.2,<5.3", "wagtail>=6.0,<6.1"]
         exclude:
-          - python: "3.11"
-            django: django>=3.2,<3.3
-          - django: django>=4.2,<4.3
-            wagtail: wagtail>=4.1,<4.2
+          - django: django>=3.2,<3.3
+            wagtail: wagtail>=6.0,<6.1
+          - python: "3.8"
+            django: django>=5.0,<5.1
+          - python: "3.9"
+            django: django>=5.0,<5.1
+          - python: "3.12"
+            django: django>=4.2,<4.3
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v3
@@ -37,4 +41,4 @@ jobs:
       - if: ${{ matrix.latest }}
         uses: codecov/codecov-action@v2
         with:
-          name: Python 3.9
+          name: Python 3.12
