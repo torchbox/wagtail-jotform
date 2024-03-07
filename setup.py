@@ -23,7 +23,7 @@ setup(
     author="Kevin Howbrook",
     author_email="kevin.howbrook@torchbox.com",
     license="BSD",
-    install_requires=["wagtail>=4.1"],
+    install_requires=["wagtail>=5.2"],
     classifiers=[
         "Environment :: Web Environment",
         "Intended Audience :: Developers",
@@ -34,9 +34,10 @@ setup(
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
         "Framework :: Wagtail",
-        "Framework :: Wagtail :: 4",
         "Framework :: Wagtail :: 5",
+        "Framework :: Wagtail :: 6",
     ],
     extras_require={"testing": testing_extras, "development": development_extras},
 )
