@@ -23,7 +23,7 @@ setup(
     author="Kevin Howbrook",
     author_email="kevin.howbrook@torchbox.com",
     license="BSD",
-    install_requires=["wagtail>=4.1"],
+    install_requires=["wagtail>=5.2"],
     classifiers=[
         "Environment :: Web Environment",
         "Intended Audience :: Developers",
