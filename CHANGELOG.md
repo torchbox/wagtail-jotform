@@ -8,8 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-- Add support for Wagtail 6.1
-- Drop support for Django < 3.2
+- Add support/testing for Wagtail 6.1, 6.2, 6.3 and 6.4
+- Add support/testing for Django 5.0 & 5.1
+- Drop testing for Django < 4.2
+- Drop support for Python < 3.8
+- Add support for Python 3.13
 
 ## 2.2.0 (2024-03-07)
 
