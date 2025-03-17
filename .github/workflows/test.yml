@@ -38,6 +38,10 @@ jobs:
           - python: "3.13"
             wagtail: "wagtail>=6.1,<6.2"
           - python: "3.13"
+        include:
+          - python: "3.13"
+            django: "django>=5.1,<5.2"
+            wagtail: "wagtail>=6.4,<6.5"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -55,4 +59,4 @@ jobs:
       - if: ${{ matrix.latest }}
         uses: codecov/codecov-action@v4
         with:
-          name: Python 3.12
+          name: Python 3.13
