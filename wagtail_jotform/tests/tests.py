@@ -146,6 +146,292 @@ class TestUtils(TestCase):
             jotform = JotFormAPI()
             jotform.fetch_from_api()
 
+    @mock.patch("wagtail_jotform.utils.requests.get")
+    @mock.patch("wagtail_jotform.utils.logger")
+    def test_fetch_data_logging_timeout(self, mock_logger, mock_requests_get):
+        # Setup mock to raise Timeout exception
+        mock_requests_get.side_effect = Timeout
+        test_url = "https://test-api.example.com"
+
+        # Call the function that should log the exception
+        with self.assertRaises(CantPullFromAPI):
+            from ..utils import fetch_data
+
+            fetch_data(test_url)
+
+        # Assert that logger.exception was called with the correct message
+        mock_logger.exception.assert_called_once_with(
+            f"Timeout error occurred when fetching data from {test_url}"
+        )
+
+    @mock.patch("wagtail_jotform.utils.requests.get")
+    @mock.patch("wagtail_jotform.utils.logger")
+    def test_fetch_data_logging_maxretry(self, mock_logger, mock_requests_get):
+        # Setup mock to raise MaxRetryError exception
+        from urllib3.exceptions import MaxRetryError
+
+        mock_requests_get.side_effect = MaxRetryError(pool=None, url=None, reason=None)
+        test_url = "https://test-api.example.com"
+
+        # Call the function that should log the exception
+        with self.assertRaises(CantPullFromAPI):
+            from ..utils import fetch_data
+
+            fetch_data(test_url)
+
+        # Assert that logger.exception was called with the correct message
+        mock_logger.exception.assert_called_once_with(
+            f"MaxRetryError occured when fetching data from {test_url}"
+        )
+
+    @mock.patch("wagtail_jotform.utils.requests.get")
+    @mock.patch("wagtail_jotform.utils.logger")
+    def test_fetch_data_logging_http_error(self, mock_logger, mock_requests_get):
+        # Setup mock to raise HTTPError exception
+        from requests.exceptions import HTTPError
+
+        mock_response = mock.MagicMock()
+        mock_response.raise_for_status.side_effect = HTTPError()
+        mock_requests_get.return_value = mock_response
+        test_url = "https://test-api.example.com"
+
+        # Call the function that should log the exception
+        with self.assertRaises(CantPullFromAPI):
+            from ..utils import fetch_data
+
+            fetch_data(test_url)
+
+        # Assert that logger.exception was called with the correct message
+        mock_logger.exception.assert_called_once_with(
+            f"HTTP/ConnectionError occured when fetching data from {test_url}"
+        )
+
+    @mock.patch("wagtail_jotform.utils.requests.get")
+    @mock.patch("wagtail_jotform.utils.logger")
+    def test_fetch_data_logging_missing_schema(self, mock_logger, mock_requests_get):
+        # Setup mock to raise MissingSchema exception
+        from requests.exceptions import MissingSchema
+
+        error_message = (
+            "Invalid URL 'test': No scheme supplied. Perhaps you meant http://test?"
+        )
+        mock_requests_get.side_effect = MissingSchema(error_message)
+        test_url = "test-api.example.com"  # URL without schema
+
+        # Call the function that should log the exception
+        with self.assertRaises(CantPullFromAPI):
+            from ..utils import fetch_data
+
+            fetch_data(test_url)
+
+        # Assert that logger.exception was called with the correct message
+        mock_logger.exception.assert_called_once_with(
+            f"HTTP/ConnectionError occured when fetching data: {error_message}"
+        )
+
+    @mock.patch("wagtail_jotform.utils.requests.get")
+    @mock.patch("wagtail_jotform.utils.logger")
+    def test_fetch_data_logging_generic_exception(self, mock_logger, mock_requests_get):
+        # Setup mock to raise a generic exception
+        mock_requests_get.side_effect = Exception("Something went wrong")
+        test_url = "https://test-api.example.com"
+
+        # Call the function that should log the exception
+        with self.assertRaises(CantPullFromAPI):
+            from ..utils import fetch_data
+
+            fetch_data(test_url)
+
+        # Assert that logger.exception was called with the correct message
+        mock_logger.exception.assert_called_once_with(
+            f"Exception occured when fetching data from {test_url}"
+        )
+
+    def test_fetch_data_logging_exceptions_individually(self):
+        """Test that all exceptions in fetch_data are logged correctly."""
+        import requests
+        from requests.exceptions import (
+            ConnectionError,
+            HTTPError,
+            MissingSchema,
+            Timeout,
+        )
+        from urllib3.exceptions import MaxRetryError
+
+        test_url = "https://test-api.example.com"
+        error_msg = "Invalid URL"
+
+        # Test 1: Timeout exception
+        with mock.patch("wagtail_jotform.utils.requests.get") as mock_get, mock.patch(
+            "wagtail_jotform.utils.logger"
+        ) as mock_logger:
+            mock_get.side_effect = Timeout()
+            with self.assertRaises(CantPullFromAPI):
+                from ..utils import fetch_data
+
+                fetch_data(test_url)
+            mock_logger.exception.assert_called_once_with(
+                f"Timeout error occurred when fetching data from {test_url}"
+            )
+
+        # Test 2: HTTPError exception
+        with mock.patch("wagtail_jotform.utils.requests.get") as mock_get, mock.patch(
+            "wagtail_jotform.utils.logger"
+        ) as mock_logger:
+            mock_response = requests.Response()
+            mock_response.status_code = 404
+            http_error = HTTPError(response=mock_response)
+            mock_get.return_value = mock.MagicMock()
+            mock_get.return_value.raise_for_status.side_effect = http_error
+            with self.assertRaises(CantPullFromAPI):
+                from ..utils import fetch_data
+
+                fetch_data(test_url)
+            mock_logger.exception.assert_called_once_with(
+                f"HTTP/ConnectionError occured when fetching data from {test_url}"
+            )
+
+        # Test 3: ConnectionError exception
+        with mock.patch("wagtail_jotform.utils.requests.get") as mock_get, mock.patch(
+            "wagtail_jotform.utils.logger"
+        ) as mock_logger:
+            mock_get.side_effect = ConnectionError()
+            with self.assertRaises(CantPullFromAPI):
+                from ..utils import fetch_data
+
+                fetch_data(test_url)
+            mock_logger.exception.assert_called_once_with(
+                f"HTTP/ConnectionError occured when fetching data from {test_url}"
+            )
+
+        # Test 4: MaxRetryError exception
+        with mock.patch("wagtail_jotform.utils.requests.get") as mock_get, mock.patch(
+            "wagtail_jotform.utils.logger"
+        ) as mock_logger:
+            mock_get.side_effect = MaxRetryError(pool=None, url=None, reason=None)
+            with self.assertRaises(CantPullFromAPI):
+                from ..utils import fetch_data
+
+                fetch_data(test_url)
+            mock_logger.exception.assert_called_once_with(
+                f"MaxRetryError occured when fetching data from {test_url}"
+            )
+
+        # Test 5: MissingSchema exception
+        with mock.patch("wagtail_jotform.utils.requests.get") as mock_get, mock.patch(
+            "wagtail_jotform.utils.logger"
+        ) as mock_logger:
+            mock_get.side_effect = MissingSchema(error_msg)
+            with self.assertRaises(CantPullFromAPI):
+                from ..utils import fetch_data
+
+                fetch_data(test_url)
+            mock_logger.exception.assert_called_once_with(
+                f"HTTP/ConnectionError occured when fetching data: {error_msg}"
+            )
+
+        # Test 6: Generic Exception
+        with mock.patch("wagtail_jotform.utils.requests.get") as mock_get, mock.patch(
+            "wagtail_jotform.utils.logger"
+        ) as mock_logger:
+            mock_get.side_effect = Exception("Generic error")
+            with self.assertRaises(CantPullFromAPI):
+                from ..utils import fetch_data
+
+                fetch_data(test_url)
+            mock_logger.exception.assert_called_once_with(
+                f"Exception occured when fetching data from {test_url}"
+            )
+
+    @mock.patch("wagtail_jotform.utils.requests.get")
+    def test_fetch_data_successful_response(self, mock_get):
+        """Test fetch_data with a successful response."""
+        # Create a mock response with a json method
+        mock_response = mock.MagicMock()
+        mock_response.json.return_value = {"data": "test"}
+        mock_get.return_value = mock_response
+
+        # Call the function
+        from ..utils import fetch_data
+
+        result = fetch_data("https://test-api.example.com")
+
+        # Check that the correct data was returned
+        self.assertEqual(result, {"data": "test"})
+
+    @override_settings(WAGTAIL_JOTFORM={})
+    @mock.patch("wagtail_jotform.utils.logger")
+    def test_fetch_jotform_data_missing_api_url_and_key(self, mock_logger):
+        """Test fetch_jotform_data when API_URL and API_KEY are not set."""
+        from ..utils import fetch_jotform_data
+
+        # Call the function
+        result = fetch_jotform_data()
+
+        # Check that the logger.error was called and None was returned
+        mock_logger.error.assert_called_once_with(
+            "API_URL or API_KEY is not set in settings."
+        )
+        self.assertIsNone(result)
+
+    @override_settings(
+        WAGTAIL_JOTFORM={"API_URL": "invalid-url", "API_KEY": "some-key"}
+    )
+    @mock.patch("wagtail_jotform.utils.logger")
+    def test_fetch_jotform_data_invalid_api_url(self, mock_logger):
+        """Test fetch_jotform_data when API_URL is invalid."""
+        from ..utils import fetch_jotform_data
+
+        # Call the function
+        result = fetch_jotform_data()
+
+        # Check that the logger.error was called and None was returned
+        mock_logger.error.assert_called_once_with(
+            "API_URL must start with http or https."
+        )
+        self.assertIsNone(result)
+
+    @override_settings(
+        WAGTAIL_JOTFORM={"API_URL": "https://api.jotform.com", "API_KEY": ""}
+    )
+    @mock.patch("wagtail_jotform.utils.logger")
+    def test_fetch_jotform_data_empty_api_key(self, mock_logger):
+        """Test fetch_jotform_data when API_KEY is empty."""
+        from ..utils import fetch_jotform_data
+
+        # Call the function
+        result = fetch_jotform_data()
+
+        # Check that the logger.error was called and None was returned
+        mock_logger.error.assert_called_once_with(
+            "API_URL or API_KEY is not set in settings."
+        )
+        self.assertIsNone(result)
+
+    @override_settings(
+        WAGTAIL_JOTFORM={
+            "API_URL": "https://api.jotform.com",
+            "API_KEY": "valid-key",
+            "LIMIT": 100,
+        }
+    )
+    @mock.patch("wagtail_jotform.utils.fetch_data")
+    def test_fetch_jotform_data_successful(self, mock_fetch_data):
+        """Test successful fetch_jotform_data call."""
+        from ..utils import fetch_jotform_data
+
+        # Set up mock return value
+        mock_fetch_data.return_value = {"test": "data"}
+
+        # Call the function
+        result = fetch_jotform_data()
+
+        # Check that fetch_data was called with the right parameters
+        mock_fetch_data.assert_called_once_with(
+            "https://api.jotform.com/user/forms?limit=100", {"APIKEY": "valid-key"}
+        )
+        self.assertEqual(result, {"test": "data"})
+
 
 class TestSettings(TestCase):
     fixtures = ["test.json"]

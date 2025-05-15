@@ -42,14 +42,17 @@ def fetch_jotform_data():
     api_url = getattr(wagtail_jotform_settings, "API_URL", "")
     api_key = getattr(wagtail_jotform_settings, "API_KEY", "")
 
-    if not api_url or not api_key:
+    # Check if API_URL is set
+    if not api_url:
         logger.error("API_URL or API_KEY is not set in settings.")
         return None
+    # Check if API_URL starts with http
     if not api_url.startswith("http"):
         logger.error("API_URL must start with http or https.")
         return None
+    # Check if API_KEY is set
     if not api_key:
-        logger.error("API_KEY is not set in settings.")
+        logger.error("API_URL or API_KEY is not set in settings.")
         return None
 
     return fetch_data(f"{api_url}/user/forms?limit={limit}", {"APIKEY": api_key})
