@@ -1,7 +1,7 @@
 from unittest import mock
 
 from django.conf import settings
-from django.test import TestCase
+from django.test import TestCase, override_settings
 
 from wagtail.models import Page, Site
 
@@ -126,19 +126,22 @@ class TestUtils(TestCase):
             )
         )
 
-    @mock.patch("wagtail_jotform.utils.fetch_data", side_effect=mocked_fetch_data)
-    def test_fetch(self, mocked_fetch_data):
-        # Test mocked data from jotform
+    @mock.patch("wagtail_jotform.utils.fetch_jotform_data")
+    def test_fetch(self, mock_fetch_jotform_data):
+        # Set up the mock to return our expected data
+        mock_fetch_jotform_data.return_value = self.expected_api_data
+
+        # Test data from jotform
         jotform = JotFormAPI()
         jotform.fetch_from_api()
         data = jotform.get_data()
         self.assertEqual(data, self.expected_api_data)
 
-    @mock.patch("wagtail_jotform.utils.requests.get")
-    @mock.patch("wagtail_jotform.utils.fetch_data", side_effect=mocked_fetch_data)
-    def test_exceptions(self, mock_get, mocked_fetch_data):
-        mock_get.side_effect = Timeout
-        mock_get.raise_for_status.side_effect = Timeout
+    @mock.patch("wagtail_jotform.utils.fetch_jotform_data")
+    def test_exceptions(self, mock_fetch_jotform_data):
+        # Make fetch_jotform_data raise a Timeout exception
+        mock_fetch_jotform_data.side_effect = Timeout
+
         with self.assertRaises(Timeout):
             jotform = JotFormAPI()
             jotform.fetch_from_api()
@@ -160,7 +163,22 @@ class TestSettings(TestCase):
         del settings.WAGTAIL_JOTFORM
         self.assertFalse(wagtail_jotform_settings.API_KEY)
         self.assertFalse(wagtail_jotform_settings.API_URL)
-        self.assertFalse(wagtail_jotform_settings.LIMIT)
+        self.assertTrue(wagtail_jotform_settings.LIMIT)
+
+    @override_settings(
+        WAGTAIL_JOTFORM={
+            "API_KEY": "test_key",
+            "API_URL": "https://api.jotform.com/user/forms",
+            "LIMIT": 100,
+        }
+    )
+    def test_settings_available(self):
+        # Test that settings are available when defined in Django settings
+        self.assertEqual(wagtail_jotform_settings.API_KEY, "test_key")
+        self.assertEqual(
+            wagtail_jotform_settings.API_URL, "https://api.jotform.com/user/forms"
+        )
+        self.assertEqual(wagtail_jotform_settings.LIMIT, 100)
 
     def test_page_renders_with_bad_settings(self):
         response = self.client.get("/embeded-form-page/")
