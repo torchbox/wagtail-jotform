@@ -8,7 +8,7 @@ this_directory = path.abspath(path.dirname(__file__))
 with open(path.join(this_directory, "README.md"), encoding="utf-8") as f:
     long_description = f.read()
 
-testing_extras = ["coverage>=6.4.1", "tox-poetry>=0.4.1"]
+testing_extras = ["coverage>=6.4.1", "tox>=4.11.0"]
 development_extras = ["black", "isort", "flake8", "pre-commit"]
 
 setup(
