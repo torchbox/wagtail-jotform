@@ -52,7 +52,7 @@ def fetch_jotform_data():
         return None
     # Check if API_KEY is set
     if not api_key:
-        logger.error("API_URL or API_KEY is not set in settings.")
+        logger.error("API_KEY is not set in settings.")
         return None
 
     return fetch_data(f"{api_url}/user/forms?limit={limit}", {"APIKEY": api_key})
