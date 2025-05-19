@@ -44,7 +44,7 @@ def fetch_jotform_data():
 
     # Check if API_URL is set
     if not api_url:
-        logger.error("API_URL or API_KEY is not set in settings.")
+        logger.error("API_URL is not set in settings.")
         return None
     # Check if API_URL starts with http
     if not api_url.startswith("http"):
