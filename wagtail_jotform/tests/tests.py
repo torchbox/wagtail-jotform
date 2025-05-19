@@ -369,9 +369,7 @@ class TestUtils(TestCase):
         result = fetch_jotform_data()
 
         # Check that the logger.error was called and None was returned
-        mock_logger.error.assert_called_once_with(
-            "API_URL or API_KEY is not set in settings."
-        )
+        mock_logger.error.assert_called_once_with("API_URL is not set in settings.")
         self.assertIsNone(result)
 
     @override_settings(
@@ -403,9 +401,7 @@ class TestUtils(TestCase):
         result = fetch_jotform_data()
 
         # Check that the logger.error was called and None was returned
-        mock_logger.error.assert_called_once_with(
-            "API_URL or API_KEY is not set in settings."
-        )
+        mock_logger.error.assert_called_once_with("API_KEY is not set in settings.")
         self.assertIsNone(result)
 
     @override_settings(
