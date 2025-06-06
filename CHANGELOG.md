@@ -8,11 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-- Add support/testing for Wagtail 6.1, 6.2, 6.3 and 6.4
-- Add support/testing for Django 5.0 & 5.1
+- Add support/testing for Wagtail 6.3, 6.4 and 7.0
+- Add support/testing for Django 5.1 and 5.2
 - Drop testing for Django < 4.2
-- Drop support for Python < 3.8
-- Add support for Python 3.13
+- Drop support for Python < 3.9
+- Add support for Python 3.9, 3.10, 3.11, 3.12 and 3.13
+- Add tox configuration for local testing
 
 ## 2.2.0 (2024-03-07)
 

@@ -13,35 +13,30 @@ jobs:
     strategy:
       matrix:
         python: ["3.13", "3.12", "3.11", "3.10", "3.9"]
-        django: ["django>=4.2,<4.3", "django>=5.0,<5.1", "django>=5.1,<5.2"]
+        django: ["django>=4.2,<4.3", "django>=5.1,<5.2", "django>=5.2,<5.3"]
         wagtail:
           [
             "wagtail>=5.2,<5.3",
-            "wagtail>=6.0,<6.1",
-            "wagtail>=6.1,<6.2",
-            "wagtail>=6.2,<6.3",
             "wagtail>=6.3,<6.4",
+            "wagtail>=6.4,<6.5",
+            "wagtail>=7.0,<7.1",
           ]
         exclude:
-          - python: "3.9"
-            django: "django>=5.0,<5.1"
-          - python: "3.9"
-            django: "django>=5.1,<5.2"
+          # Python 3.13 is not compatible with Django 4.2
           - python: "3.13"
             django: "django>=4.2,<4.3"
-          - python: "3.13"
-            django: "django>=5.0,<5.1"
-          - python: "3.13"
+
+          # Django 5.1/5.2 with Wagtail 5.2 combinations are excluded for all Python versions
+          - django: "django>=5.1,<5.2"
             wagtail: "wagtail>=5.2,<5.3"
-          - python: "3.13"
-            wagtail: "wagtail>=6.0,<6.1"
-          - python: "3.13"
-            wagtail: "wagtail>=6.1,<6.2"
-          - python: "3.13"
+          - django: "django>=5.2,<5.3"
+            wagtail: "wagtail>=5.2,<5.3"
+
         include:
           - python: "3.13"
-            django: "django>=5.1,<5.2"
-            wagtail: "wagtail>=6.4,<6.5"
+            django: "django>=5.2,<5.3"
+            wagtail: "wagtail>=7.0,<7.1"
+            latest: true
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
