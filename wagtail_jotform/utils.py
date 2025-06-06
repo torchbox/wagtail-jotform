@@ -38,11 +38,24 @@ def fetch_data(url, headers=None, **params):
 
 
 def fetch_jotform_data():
-    limit = wagtail_jotform_settings.get("LIMIT", 50)
-    headers = {"APIKEY": wagtail_jotform_settings.API_KEY}
-    url = f"{wagtail_jotform_settings.API_URL}/user/forms?limit={limit}"
+    limit = getattr(wagtail_jotform_settings, "LIMIT", 50)
+    api_url = getattr(wagtail_jotform_settings, "API_URL", "")
+    api_key = getattr(wagtail_jotform_settings, "API_KEY", "")
 
-    return fetch_data(url, headers)
+    # Check if API_URL is set
+    if not api_url:
+        logger.error("API_URL is not set in settings.")
+        return None
+    # Check if API_URL starts with http
+    if not api_url.startswith("http"):
+        logger.error("API_URL must start with http or https.")
+        return None
+    # Check if API_KEY is set
+    if not api_key:
+        logger.error("API_KEY is not set in settings.")
+        return None
+
+    return fetch_data(f"{api_url}/user/forms?limit={limit}", {"APIKEY": api_key})
 
 
 class _BaseContentAPI:

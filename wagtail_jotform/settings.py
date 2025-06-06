@@ -1,6 +1,6 @@
 from django.conf import settings
 
-DEFAULTS = {}
+DEFAULTS = {"LIMIT": 50}  # Default limit for JotForm API requests
 
 
 class WagtailJotFormSettings:
@@ -11,7 +11,8 @@ class WagtailJotFormSettings:
             # Check if present in user settings
             return django_settings[attr]
         except (KeyError, AttributeError):
-            return getattr(DEFAULTS, attr, None)
+            # Use the DEFAULTS dictionary directly
+            return DEFAULTS.get(attr)
 
 
 wagtail_jotform_settings = WagtailJotFormSettings()
