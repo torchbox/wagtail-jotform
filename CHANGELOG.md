@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.3.0] - 2025-06-05
+
+- Allow the limit setting to work as expected: <https://github.com/torchbox/wagtail-jotform/pull/39>
+
 - Add support/testing for Wagtail 6.3, 6.4 and 7.0
 - Add support/testing for Django 5.1 and 5.2
 - Drop testing for Django < 4.2
