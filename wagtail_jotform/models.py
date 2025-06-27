@@ -34,10 +34,6 @@ class EmbeddedFormPage(RoutablePageMixin, Page):
 
     base_form_class = EmbeddedFormPageAdminForm
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        jot_form_choices()
-
     thank_you_template = "wagtail_jotform/thank_you.html"
     subpage_types = []
 
