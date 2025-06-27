@@ -1,3 +1,4 @@
+from django.core.cache import cache
 from django.db import models
 from django.forms.widgets import Select
 from django.shortcuts import render
@@ -12,16 +13,25 @@ from .settings import wagtail_jotform_settings
 from .utils import JotFormAPI
 
 
+CHOICES_CACHE_KEY = "jot_form_choices"
+
+
 def jot_form_choices():
-    jot_form_data = []
-    if wagtail_jotform_settings.API_URL and wagtail_jotform_settings.API_KEY:
-        jotform = JotFormAPI()
-        jotform.fetch_from_api()
-        data = jotform.get_data()
-        if "content" in data:
-            for item in data["content"]:
-                jot_form_data.append((item["id"], item["title"]))
-    return jot_form_data
+    # Use a `None` check to allow empty choices to still be cached
+    if (form_choices := cache.get(CHOICES_CACHE_KEY)) is None:
+
+        form_choices = []
+        if wagtail_jotform_settings.API_URL and wagtail_jotform_settings.API_KEY:
+            jotform = JotFormAPI()
+            jotform.fetch_from_api()
+            data = jotform.get_data()
+            if "content" in data:
+                for item in data["content"]:
+                    form_choices.append((item["id"], item["title"]))
+
+        cache.set(CHOICES_CACHE_KEY, form_choices, timeout=300)
+
+    return form_choices
 
 
 class EmbeddedFormPageAdminForm(WagtailAdminPageForm):
@@ -33,10 +43,6 @@ class EmbeddedFormPageAdminForm(WagtailAdminPageForm):
 class EmbeddedFormPage(RoutablePageMixin, Page):
 
     base_form_class = EmbeddedFormPageAdminForm
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        jot_form_choices()
 
     thank_you_template = "wagtail_jotform/thank_you.html"
     subpage_types = []

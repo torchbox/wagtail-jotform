@@ -499,15 +499,6 @@ class TestModels(TestCase):
         self.assertEqual(choices, [("1", "Form 1"), ("2", "Form 2")])
         mock_api_instance.fetch_from_api.assert_called_once()
 
-    @mock.patch("wagtail_jotform.models.jot_form_choices")
-    def test_form_choices_called_in_model_init(self, mock_jot_form_choices):
-        """Test that jot_form_choices is called when initializing EmbeddedFormPage."""
-        # Create a new instance to trigger the __init__ method
-        EmbeddedFormPage(title="Test Form Page")
-
-        # Verify that jot_form_choices was called
-        mock_jot_form_choices.assert_called_once()
-
     def test_thank_you_page_route(self):
         """Test the thank you page route renders correctly."""
         response = self.client.get("/embeded-form-page/thank-you/")
