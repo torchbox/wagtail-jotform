@@ -77,3 +77,9 @@ WAGTAIL_JOTFORM = {
 WAGTAILADMIN_BASE_URL = "http://localhost:8000"
 
 STATIC_URL = "/static/"
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.dummy.DummyCache",
+    }
+}
