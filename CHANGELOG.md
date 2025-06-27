@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.4.0] - 2025-06-27
+
+- Cache form id choices for 5 minutes
+- Stop unnecessarily loading choices when form models are created
+
 ## [2.3.0] - 2025-06-05
 
 - Allow the limit setting to work as expected: <https://github.com/torchbox/wagtail-jotform/pull/39>
