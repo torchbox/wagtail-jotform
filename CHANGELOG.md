@@ -8,6 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.4.1] - 2025-06-27
+
+- Use Trusted Publishing to authenticate with PyPI when publishing.
+
+This change is functionally identical to `2.4.0`.
+
 ## [2.4.0] - 2025-06-27
 
 - Cache form id choices for 5 minutes
