@@ -6,6 +6,8 @@ on:
 
 jobs:
   build:
+    permissions:
+      id-token: write  # IMPORTANT: this permission is mandatory for trusted publishing
     runs-on: ubuntu-latest
 
     steps:
