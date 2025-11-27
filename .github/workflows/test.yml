@@ -12,30 +12,23 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python: ["3.13", "3.12", "3.11", "3.10", "3.9"]
+        python: ["3.14", "3.13", "3.12", "3.11", "3.10"]
         django: ["django>=4.2,<4.3", "django>=5.1,<5.2", "django>=5.2,<5.3"]
-        wagtail:
-          [
-            "wagtail>=5.2,<5.3",
-            "wagtail>=6.3,<6.4",
-            "wagtail>=6.4,<6.5",
-            "wagtail>=7.0,<7.1",
-          ]
+        wagtail: ["wagtail>=6.3,<6.4", "wagtail>=7.0,<7.1", "wagtail>=7.2,<7.3"]
         exclude:
           # Python 3.13 is not compatible with Django 4.2
           - python: "3.13"
             django: "django>=4.2,<4.3"
-
-          # Django 5.1/5.2 with Wagtail 5.2 combinations are excluded for all Python versions
-          - django: "django>=5.1,<5.2"
-            wagtail: "wagtail>=5.2,<5.3"
-          - django: "django>=5.2,<5.3"
-            wagtail: "wagtail>=5.2,<5.3"
+          # Python 3.14 is only compatible with Django 5.2+
+          - python: "3.14"
+            django: "django>=4.2,<4.3"
+          - python: "3.14"
+            django: "django>=5.1,<5.2"
 
         include:
-          - python: "3.13"
+          - python: "3.14"
             django: "django>=5.2,<5.3"
-            wagtail: "wagtail>=7.0,<7.1"
+            wagtail: "wagtail>=7.2,<7.3"
             latest: true
     steps:
       - uses: actions/checkout@v4
