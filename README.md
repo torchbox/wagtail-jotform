@@ -13,7 +13,7 @@ Wagtail Jotform works by providing a new `EmbeddedFormPage` page type with a for
 Wagtail Jotform supports:
 
 - Python 3.10, 3.11, 3.12, 3.13, 3.14
-- Django 4.2, 5.1, 5.2, 6.0
+- Django 4.2 (LTS), 5.2 (LTS), 6.0
 - Wagtail 7.0 (LTS), 7.1, 7.2, 7.3, 7.4 (LTS)
 
 Not every Python/Django/Wagtail combination is valid — see the upstream Wagtail [compatible Django/Python versions](https://docs.wagtail.org/en/stable/releases/upgrading.html#compatible-django-python-versions) table for which combinations are tested.
