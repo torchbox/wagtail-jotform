@@ -10,9 +10,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Drop testing for python 3.9
 - Add testing for python 3.14
-- Minimum Wagtail version is now 6.3
-- Wagtail 7.1 support/testing
-- Wagtail 7.2 support/testing
 - Add support/testing for Wagtail 7.2, 7.3 and 7.4 (LTS)
 - Add support/testing for Django 6.0
 - Add support/testing for Python 3.14
