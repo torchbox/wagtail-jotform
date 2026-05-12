@@ -17,17 +17,14 @@ jobs:
         wagtail:
           [
             "wagtail>=7.0,<7.1",
-            "wagtail>=7.1,<7.2",
             "wagtail>=7.2,<7.3",
             "wagtail>=7.3,<7.4",
             "wagtail>=7.4,<7.5",
           ]
         exclude:
-          # Python 3.14 requires Wagtail 7.2+ (older Wagtails cap Python at 3.13)
+          # Python 3.14 requires Wagtail 7.2+ (Wagtail 7.0 caps Python at 3.13)
           - python: "3.14"
             wagtail: "wagtail>=7.0,<7.1"
-          - python: "3.14"
-            wagtail: "wagtail>=7.1,<7.2"
 
           # Django 4.2 is dropped from Wagtail 7.4
           - django: "django>=4.2,<4.3"
@@ -36,8 +33,6 @@ jobs:
           # Django 6.0 is only supported by Wagtail 7.2+
           - django: "django>=6.0,<6.1"
             wagtail: "wagtail>=7.0,<7.1"
-          - django: "django>=6.0,<6.1"
-            wagtail: "wagtail>=7.1,<7.2"
 
           # Django 4.2 supports Python 3.8–3.12 only
           - python: "3.13"
