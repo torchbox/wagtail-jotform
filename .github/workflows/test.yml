@@ -13,22 +13,43 @@ jobs:
     strategy:
       matrix:
         python: ["3.14", "3.13", "3.12", "3.11", "3.10"]
-        django: ["django>=4.2,<4.3", "django>=5.1,<5.2", "django>=5.2,<5.3"]
-        wagtail: ["wagtail>=6.3,<6.4", "wagtail>=7.0,<7.1", "wagtail>=7.2,<7.3"]
+        django: ["django>=4.2,<4.3", "django>=5.2,<5.3", "django>=6.0,<6.1"]
+        wagtail:
+          [
+            "wagtail>=7.0,<7.1",
+            "wagtail>=7.2,<7.3",
+            "wagtail>=7.3,<7.4",
+            "wagtail>=7.4,<7.5",
+          ]
         exclude:
-          # Python 3.13 is not compatible with Django 4.2
+          # Python 3.14 requires Wagtail 7.2+ (Wagtail 7.0 caps Python at 3.13)
+          - python: "3.14"
+            wagtail: "wagtail>=7.0,<7.1"
+
+          # Django 4.2 is dropped from Wagtail 7.4
+          - django: "django>=4.2,<4.3"
+            wagtail: "wagtail>=7.4,<7.5"
+
+          # Django 6.0 is only supported by Wagtail 7.2+
+          - django: "django>=6.0,<6.1"
+            wagtail: "wagtail>=7.0,<7.1"
+
+          # Django 4.2 supports Python 3.8–3.12 only
           - python: "3.13"
             django: "django>=4.2,<4.3"
-          # Python 3.14 is only compatible with Django 5.2+
           - python: "3.14"
             django: "django>=4.2,<4.3"
-          - python: "3.14"
-            django: "django>=5.1,<5.2"
+
+          # Django 6.0 requires Python 3.12+
+          - python: "3.10"
+            django: "django>=6.0,<6.1"
+          - python: "3.11"
+            django: "django>=6.0,<6.1"
 
         include:
           - python: "3.14"
-            django: "django>=5.2,<5.3"
-            wagtail: "wagtail>=7.2,<7.3"
+            django: "django>=6.0,<6.1"
+            wagtail: "wagtail>=7.4,<7.5"
             latest: true
     steps:
       - uses: actions/checkout@v4
@@ -38,8 +59,10 @@ jobs:
           cache: "pip"
           cache-dependency-path: "**/setup.cfg"
       - run: |
+          pip install -e .
           pip install coverage
           pip install "${{ matrix.wagtail }}"
+          pip install "${{ matrix.django }}"
       - run: |
           coverage run ./runtests.py
           coverage report
@@ -47,4 +70,4 @@ jobs:
       - if: ${{ matrix.latest }}
         uses: codecov/codecov-action@v4
         with:
-          name: Python 3.13
+          name: Python 3.14

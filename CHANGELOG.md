@@ -10,9 +10,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Drop testing for python 3.9
 - Add testing for python 3.14
-- Minimum Wagtail version is now 6.3
-- Wagtail 7.1 support/testing
-- Wagtail 7.2 support/testing
+- Add support/testing for Wagtail 7.2, 7.3 and 7.4 (LTS)
+- Add support/testing for Django 6.0
+- Add support/testing for Python 3.14
+- Drop support for Wagtail 6.3 (now outside the previous-LTS → latest-LTS range)
+- Drop support for Python 3.9 (end of life 2025-10-31)
+- Raise minimum supported Wagtail to 7.0 (LTS) and minimum Python to 3.10
+- Declare `requests` as an explicit runtime dependency (previously relied on transitively)
+- Drop support for Django 5.1 (end of life 2025-12)
+- Drop support for Wagtail 7.1 (no longer in upstream active or security support)
 
 ## [2.4.1] - 2025-06-27
 
